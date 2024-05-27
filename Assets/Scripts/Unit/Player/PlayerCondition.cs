@@ -15,13 +15,14 @@ public class PlayerCondition : MonoBehaviour
         if (stamina.GetCurrentValue() == 0.0f && !isStaminaDepleted)
         {
             CharacterManager.Instance.Player.controller.canRun = false;
-            isStaminaDepleted = true;
+            isStaminaDepleted = true; //스테미나 고갈.
         }
         else if (stamina.GetCurrentValue() > 0.0f && isStaminaDepleted)
         {
-            isStaminaDepleted = false;
+            isStaminaDepleted = false; //스테미나 고갈 종료.
         }
 
+        //HP가 풀이고 delta가 0보다 크면(=회복이면) 더 이상 changeValue하지 않음.
         if (!(stamina.GetCurrentValue() == stamina.maxValue && stamina.deltaRate > 0))
         {
             stamina.changeValue(stamina.deltaRate * Time.deltaTime);
@@ -34,9 +35,15 @@ public class PlayerCondition : MonoBehaviour
         }
     }
 
+    //외부에서 스테미나 델타 변경할 때(달리기).
     public void changeStaminaDelta(float amount)
     {
         stamina.deltaRate = amount;
+    }
+
+    public void UseStamina(float amount)
+    {
+        stamina.changeValue(amount);
     }
 
     public void HealStamina()

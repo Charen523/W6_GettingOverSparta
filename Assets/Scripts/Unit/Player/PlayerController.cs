@@ -4,13 +4,14 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    //TODO: 인스펙터 창에서 바꿀만한 것들은 SOf로 빼주기.
     [Header("Movement")]
     private Vector2 currentMovementInput;
     public float baseSpeed = 5; 
     public float runSpeedRate = 2;
-    public float runStaminaDelta = 10f;
+    public float runStaminaDeltaValue = 10f;
     public float jumpForce = 80;
-    public float jumpStaminaRate = 10f;
+    public float jumpStaminaValue = 10f;
     public LayerMask groundLayerMask;
 
     [Header("Look")]
@@ -20,6 +21,7 @@ public class PlayerController : MonoBehaviour
     public float maxXLook = 85; //max 각도 정하고
     private float minXLook => -maxXLook; //min 자동변환. 
 
+    private PlayerCondition playerCondition;
     private Rigidbody rb;
     private Transform cameraContainer;
 
@@ -30,6 +32,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        playerCondition = CharacterManager.Instance.Player.condition;
         rb = GetComponent<Rigidbody>();
         cameraContainer = transform.GetChild(0); //0:cameraContainer.
     }
@@ -75,13 +78,13 @@ public class PlayerController : MonoBehaviour
         if (context.phase == InputActionPhase.Started)
         {
             isRunning = true;
-            CharacterManager.Instance.Player.condition.changeStaminaDelta(-runStaminaDelta);
+            playerCondition.changeStaminaDelta(-runStaminaDeltaValue);
         }
 
         if (context.phase == InputActionPhase.Canceled)
         {
             isRunning = false;
-            CharacterManager.Instance.Player.condition.HealStamina();
+            playerCondition.HealStamina();
             canRun = true;
         }
     }
@@ -149,6 +152,7 @@ public class PlayerController : MonoBehaviour
         if (isJumping && IsGrounded())
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            playerCondition.UseStamina(-jumpStaminaValue);
         }
 
     }
