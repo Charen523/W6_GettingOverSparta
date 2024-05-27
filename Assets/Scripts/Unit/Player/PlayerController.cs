@@ -102,7 +102,6 @@ public class PlayerController : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        Debug.Log(IsGrounded());
         if (context.phase == InputActionPhase.Started && IsGrounded())
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
@@ -110,21 +109,26 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    //강의대로 한 번 만들어봄.
     bool IsGrounded()
     {
+        float directionOffset = 0.1f;
+        float heightOffest = 1.45f;
+        float rayLength = 0.1f;
+
         Ray[] rays = new Ray[4]
         {
-            new Ray(transform.position + (transform.forward * 0.2f) + (transform.up * 0.01f), Vector3.down),
-            new Ray(transform.position - (transform.forward * 0.2f) + (transform.up * 0.01f), Vector3.down),
-            new Ray(transform.position + (transform.forward * 0.2f) - (transform.up * 0.01f), Vector3.down),
-            new Ray(transform.position - (transform.forward * 0.2f) - (transform.up * 0.01f), Vector3.down)
+            new Ray(transform.position + (transform.forward * directionOffset) - (transform.up * heightOffest), Vector3.down),
+            new Ray(transform.position - (transform.forward * directionOffset) - (transform.up * heightOffest), Vector3.down),
+            new Ray(transform.position + (transform.right * directionOffset) - (transform.up * heightOffest), Vector3.down),
+            new Ray(transform.position - (transform.right * directionOffset) - (transform.up * heightOffest), Vector3.down)
         };
 
         for (int i = 0; i < rays.Length; i++)
         {
-            if (Physics.Raycast(rays[i], 0.1f, groundLayerMask))
+            if (Physics.Raycast(rays[i], out RaycastHit hit, rayLength, groundLayerMask))
+            {
                 return true;
+            }
         }
 
         return false;
