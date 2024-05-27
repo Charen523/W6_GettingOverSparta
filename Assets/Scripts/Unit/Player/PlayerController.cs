@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 currentMovementInput;
     public float moveSpeed;
     public float runSpeed;
-    public float jumpPower;
+    public float jumpForce;
     public LayerMask groundLayerMask;
 
     [Header("Look")]
@@ -68,8 +68,6 @@ public class PlayerController : MonoBehaviour
         dir.y = rb.velocity.y;
 
         rb.velocity = dir;
-
-        Debug.Log(dir);
     }
 
     public void OnLook(InputAction.CallbackContext context)
