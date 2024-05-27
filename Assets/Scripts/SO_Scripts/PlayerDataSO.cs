@@ -18,6 +18,6 @@ public class PlayerDataSO : ScriptableObject, IDamagable
 
     public void TakePhysicalDamage(int damageAmount)
     {
-        
+       
     }
 }
