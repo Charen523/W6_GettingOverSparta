@@ -4,27 +4,18 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    //TODO: 인스펙터 창에서 바꿀만한 것들은 SOf로 빼주기.
-    [Header("Movement")]
-    private Vector2 currentMovementInput;
-    public float baseSpeed = 5; 
-    public float runSpeedRate = 2;
-    public float runStaminaDeltaValue = 10f;
-    public float jumpForce = 80;
-    public float jumpStaminaValue = 10f;
-    public LayerMask groundLayerMask;
-
-    [Header("Look")]
+    //current Input Values
+    private Vector2 moveInput;
     private Vector2 mouseDelta;
     private float currentCamXRot;
-    public float lookSensitivity; //마우스 민감도.
-    public float maxXLook = 85; //max 각도 정하고
-    private float minXLook => -maxXLook; //min 자동변환. 
 
+    //Unity Variables
+    public PlayerDataSO playerData; //Instpector에서 할당.
     private PlayerCondition playerCondition;
     private Rigidbody rb;
     private Transform cameraContainer;
 
+    //current Action bools
     private bool canLook = true;
     [HideInInspector()] public bool canRun = true;
     private bool isRunning = false;
@@ -60,11 +51,11 @@ public class PlayerController : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Performed) 
         {
-            currentMovementInput = context.ReadValue<Vector2>();
+            moveInput = context.ReadValue<Vector2>();
         }
         else if (context.phase == InputActionPhase.Canceled)
         {
-            currentMovementInput = Vector2.zero;
+            moveInput = Vector2.zero;
         }
     }
 
@@ -78,7 +69,7 @@ public class PlayerController : MonoBehaviour
         if (context.phase == InputActionPhase.Started)
         {
             isRunning = true;
-            playerCondition.changeStaminaDelta(-runStaminaDeltaValue);
+            playerCondition.changeStaminaDelta(-playerData.runStaminaDeltaValue);
         }
 
         if (context.phase == InputActionPhase.Canceled)
@@ -119,7 +110,7 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
-        Vector3 dir = transform.forward * currentMovementInput.y + transform.right * currentMovementInput.x; //방향
+        Vector3 dir = transform.forward * moveInput.y + transform.right * moveInput.x; //방향
         dir *= CurrentSpeed();
         dir.y = rb.velocity.y;
 
@@ -128,22 +119,22 @@ public class PlayerController : MonoBehaviour
 
     private void CameraLook()
     {
-        currentCamXRot += mouseDelta.y * lookSensitivity;
-        currentCamXRot = Mathf.Clamp(currentCamXRot, minXLook, maxXLook);
+        currentCamXRot += mouseDelta.y * playerData.lookSensitivity;
+        currentCamXRot = Mathf.Clamp(currentCamXRot, playerData.minXLook, playerData.maxXLook);
         cameraContainer.localEulerAngles = new Vector3(-currentCamXRot, 0, 0);
 
-        transform.eulerAngles += new Vector3(0, mouseDelta.x * lookSensitivity, 0);
+        transform.eulerAngles += new Vector3(0, mouseDelta.x * playerData.lookSensitivity, 0);
     }
 
     private float CurrentSpeed()
     {
         if (canRun && isRunning)
         {
-            return baseSpeed * runSpeedRate;
+            return playerData.baseSpeed * playerData.runSpeedRate;
         }
         else
         {
-            return baseSpeed;
+            return playerData.baseSpeed;
         }
     }
 
@@ -151,8 +142,8 @@ public class PlayerController : MonoBehaviour
     {
         if (isJumping && IsGrounded())
         {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            playerCondition.UseStamina(-jumpStaminaValue);
+            rb.AddForce(Vector3.up * playerData.jumpForce, ForceMode.Impulse);
+            playerCondition.UseStamina(-playerData.jumpStaminaValue);
         }
 
     }
@@ -173,7 +164,7 @@ public class PlayerController : MonoBehaviour
 
         for (int i = 0; i < rays.Length; i++)
         {
-            if (Physics.Raycast(rays[i], out RaycastHit hit, rayLength, groundLayerMask))
+            if (Physics.Raycast(rays[i], out RaycastHit hit, rayLength, playerData.groundLayerMask))
             {
                 canRun = true;
                 return true;
