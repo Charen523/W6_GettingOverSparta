@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Controls;
 
 public class PlayerController : MonoBehaviour
 {
@@ -9,8 +8,9 @@ public class PlayerController : MonoBehaviour
     private Vector2 currentMovementInput;
     public float baseSpeed = 5; 
     public float runSpeedRate = 2;
-    private float currentSpeed;
+    public float runStaminaDelta = 10f;
     public float jumpForce = 80;
+    public float jumpStaminaRate = 10f;
     public LayerMask groundLayerMask;
 
     [Header("Look")]
@@ -20,11 +20,13 @@ public class PlayerController : MonoBehaviour
     public float maxXLook = 85; //max 각도 정하고
     private float minXLook => -maxXLook; //min 자동변환. 
 
-    [HideInInspector]
-    public bool canLook = true;
-
     private Rigidbody rb;
     private Transform cameraContainer;
+
+    private bool canLook = true;
+    [HideInInspector()] public bool canRun = true;
+    private bool isRunning = false;
+    private bool isJumping = false;
 
     private void Awake()
     {
@@ -35,12 +37,12 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
-        currentSpeed = baseSpeed;
     }
 
     private void FixedUpdate()
     {
-        Move();   
+        Move();
+        Jump();
     }
 
     private void LateUpdate()
@@ -63,18 +65,62 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void Move()
-    {
-        Vector3 dir = transform.forward * currentMovementInput.y + transform.right * currentMovementInput.x; //방향
-        dir *= currentSpeed;
-        dir.y = rb.velocity.y;
-
-        rb.velocity = dir;
-    }
-
     public void OnLook(InputAction.CallbackContext context)
     {
         mouseDelta = context.ReadValue<Vector2>();
+    }
+
+    public void OnRun(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+        {
+            isRunning = true;
+            CharacterManager.Instance.Player.condition.changeStaminaDelta(-runStaminaDelta);
+        }
+
+        if (context.phase == InputActionPhase.Canceled)
+        {
+            isRunning = false;
+            CharacterManager.Instance.Player.condition.HealStamina();
+            canRun = true;
+        }
+    }
+
+    public void OnJump(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+        {
+            isJumping = true;
+        }
+
+        if (context.phase == InputActionPhase.Canceled)
+        {
+            isJumping = false;
+        }
+    }
+
+    public void OnInventory(InputAction.CallbackContext context)
+    {
+        //TODO: 인벤토리 UI 만들기
+    }
+
+    public void OnInteract(InputAction.CallbackContext context)
+    {
+        //TODO: 상호작용 기능 만들기
+    }
+
+    public void OnMenu(InputAction.CallbackContext context)
+    {
+        //TODO: 메뉴UI 만들기
+    }
+
+    private void Move()
+    {
+        Vector3 dir = transform.forward * currentMovementInput.y + transform.right * currentMovementInput.x; //방향
+        dir *= CurrentSpeed();
+        dir.y = rb.velocity.y;
+
+        rb.velocity = dir;
     }
 
     private void CameraLook()
@@ -86,30 +132,28 @@ public class PlayerController : MonoBehaviour
         transform.eulerAngles += new Vector3(0, mouseDelta.x * lookSensitivity, 0);
     }
 
-    public void OnRun(InputAction.CallbackContext context)
+    private float CurrentSpeed()
     {
-        //TODO: 스테미나 바와 연계.
-        if (context.phase == InputActionPhase.Performed)
+        if (canRun && isRunning)
         {
-            currentSpeed = baseSpeed * runSpeedRate;
+            return baseSpeed * runSpeedRate;
         }
-
-        if (context.phase == InputActionPhase.Canceled)
+        else
         {
-            currentSpeed = baseSpeed;
+            return baseSpeed;
         }
     }
 
-    public void OnJump(InputAction.CallbackContext context)
+    private void Jump()
     {
-        if (context.phase == InputActionPhase.Started && IsGrounded())
+        if (isJumping && IsGrounded())
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            
         }
+
     }
 
-    bool IsGrounded()
+    private bool IsGrounded()
     {
         float directionOffset = 0.1f;
         float heightOffest = 1.45f;
@@ -127,25 +171,23 @@ public class PlayerController : MonoBehaviour
         {
             if (Physics.Raycast(rays[i], out RaycastHit hit, rayLength, groundLayerMask))
             {
+                canRun = true;
                 return true;
             }
+        }
+
+        //공중에 떠 있는 상태에서는 가속 불가 예외처리.
+        if (!isRunning)
+        {
+            canRun = false;
         }
 
         return false;
     }
 
-    public void OnInventory(InputAction.CallbackContext context)
+    public void ToggleCursor(bool toggle)
     {
-        //TODO: 인벤토리 UI 만들기
-    }
-
-    public void OnInteract(InputAction.CallbackContext context)
-    {
-        //TODO: 상호작용 기능 만들기
-    }
-
-    public void OnMenu(InputAction.CallbackContext context)
-    {
-        //TODO: 메뉴UI 만들기
+        Cursor.lockState = toggle ? CursorLockMode.None : CursorLockMode.Locked;
+        canLook = !toggle;
     }
 }
