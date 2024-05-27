@@ -7,16 +7,17 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Movement")]
     private Vector2 currentMovementInput;
-    public float moveSpeed;
-    public float runSpeed;
-    public float jumpForce;
+    public float baseSpeed = 5; 
+    public float runSpeedRate = 2;
+    private float currentSpeed;
+    public float jumpForce = 80;
     public LayerMask groundLayerMask;
 
     [Header("Look")]
     private Vector2 mouseDelta;
     private float currentCamXRot;
     public float lookSensitivity; //마우스 민감도.
-    public float maxXLook; //max 각도 정하고
+    public float maxXLook = 85; //max 각도 정하고
     private float minXLook => -maxXLook; //min 자동변환. 
 
     [HideInInspector]
@@ -34,6 +35,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        currentSpeed = baseSpeed;
     }
 
     private void FixedUpdate()
@@ -64,7 +66,7 @@ public class PlayerController : MonoBehaviour
     private void Move()
     {
         Vector3 dir = transform.forward * currentMovementInput.y + transform.right * currentMovementInput.x; //방향
-        dir *= moveSpeed;
+        dir *= currentSpeed;
         dir.y = rb.velocity.y;
 
         rb.velocity = dir;
@@ -86,26 +88,60 @@ public class PlayerController : MonoBehaviour
 
     public void OnRun(InputAction.CallbackContext context)
     {
+        //TODO: 스테미나 바와 연계.
+        if (context.phase == InputActionPhase.Performed)
+        {
+            currentSpeed = baseSpeed * runSpeedRate;
+        }
 
+        if (context.phase == InputActionPhase.Canceled)
+        {
+            currentSpeed = baseSpeed;
+        }
     }
 
     public void OnJump(InputAction.CallbackContext context)
     {
+        Debug.Log(IsGrounded());
+        if (context.phase == InputActionPhase.Started && IsGrounded())
+        {
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            
+        }
+    }
 
+    //강의대로 한 번 만들어봄.
+    bool IsGrounded()
+    {
+        Ray[] rays = new Ray[4]
+        {
+            new Ray(transform.position + (transform.forward * 0.2f) + (transform.up * 0.01f), Vector3.down),
+            new Ray(transform.position - (transform.forward * 0.2f) + (transform.up * 0.01f), Vector3.down),
+            new Ray(transform.position + (transform.forward * 0.2f) - (transform.up * 0.01f), Vector3.down),
+            new Ray(transform.position - (transform.forward * 0.2f) - (transform.up * 0.01f), Vector3.down)
+        };
+
+        for (int i = 0; i < rays.Length; i++)
+        {
+            if (Physics.Raycast(rays[i], 0.1f, groundLayerMask))
+                return true;
+        }
+
+        return false;
     }
 
     public void OnInventory(InputAction.CallbackContext context)
     {
-
+        //TODO: 인벤토리 UI 만들기
     }
 
     public void OnInteract(InputAction.CallbackContext context)
     {
-
+        //TODO: 상호작용 기능 만들기
     }
 
     public void OnMenu(InputAction.CallbackContext context)
     {
-
+        //TODO: 메뉴UI 만들기
     }
 }
