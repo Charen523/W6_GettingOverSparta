@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -23,13 +24,13 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        playerCondition = CharacterManager.Instance.Player.condition;
         rb = GetComponent<Rigidbody>();
         cameraContainer = transform.GetChild(0); //0:cameraContainer.
     }
 
     private void Start()
     {
+        playerCondition = CharacterManager.Instance.Player.condition;
         Cursor.lockState = CursorLockMode.Locked;
     }
 
