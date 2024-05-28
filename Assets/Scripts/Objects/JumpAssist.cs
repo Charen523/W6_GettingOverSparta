@@ -8,12 +8,35 @@ public class JumpAssist : MonoBehaviour
     public LayerMask PlayerMask = 1 << 6;
     public float jumpAssistForce;
 
+    private GameObject player;
+
+    private Coroutine jumpCoroutine;
+    private Animator anim;
+
+    private void Awake()
+    {
+        anim = GetComponent<Animator>();
+    }
 
     private void OnTriggerEnter(Collider other)
     {
         if (((1 << other.gameObject.layer) & PlayerMask) != 0)
         {
-            other.gameObject.GetComponent<Rigidbody>().AddForce(Vector3.up * jumpAssistForce, ForceMode.Impulse);
+            player = other.gameObject;
+            StartCoroutine(JumpDelay());
+        }
+        
+    }
+
+    private IEnumerator JumpDelay()
+    {
+        anim.SetTrigger("PlayerOn");
+        yield return new WaitForSeconds(1f);
+
+        //점프대에서 1초 기다렸을 때.
+        if (player.transform.position == CharacterManager.Instance.Player.GetComponent<Transform>().position)
+        {
+            player.gameObject.GetComponent<Rigidbody>().AddForce(Vector3.up * jumpAssistForce, ForceMode.Impulse);
         }
     }
 }
