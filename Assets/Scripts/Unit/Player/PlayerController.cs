@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,7 +11,7 @@ public class PlayerController : MonoBehaviour
     private float currentCamXRot;
 
     //Unity Variables
-    public PlayerDataSO playerData; //Instpector에서 할당.
+    public PlayerData playerData; //Instpector에서 할당.
     private PlayerCondition playerCondition;
     private Rigidbody rb;
     private Transform cameraContainer;
@@ -23,13 +24,13 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        playerCondition = CharacterManager.Instance.Player.condition;
         rb = GetComponent<Rigidbody>();
         cameraContainer = transform.GetChild(0); //0:cameraContainer.
     }
 
     private void Start()
     {
+        playerCondition = CharacterManager.Instance.Player.condition;
         Cursor.lockState = CursorLockMode.Locked;
     }
 
@@ -143,7 +144,7 @@ public class PlayerController : MonoBehaviour
         if (isJumping && IsGrounded())
         {
             rb.AddForce(Vector3.up * playerData.jumpForce, ForceMode.Impulse);
-            playerCondition.UseStamina(-playerData.jumpStaminaValue);
+            playerCondition.UseStamina(playerData.jumpStaminaValue);
         }
 
     }
