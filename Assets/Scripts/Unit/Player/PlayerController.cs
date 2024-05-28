@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     private float currentCamXRot;
 
     //Unity Variables
-    public PlayerData playerData; //Instpector에서 할당.
+    private PlayerData playerData;
     private PlayerCondition playerCondition;
     private Rigidbody rb;
     private Transform cameraContainer;
@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        playerData = CharacterManager.Instance.Player.playerData;
         playerCondition = CharacterManager.Instance.Player.condition;
         Cursor.lockState = CursorLockMode.Locked;
     }
