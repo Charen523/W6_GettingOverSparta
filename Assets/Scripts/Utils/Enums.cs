@@ -9,5 +9,6 @@ public enum ConsumableType
 public enum InfoTag
 {
     Tree = 0,
-    Car
+    Car,
+    Bush
 }
