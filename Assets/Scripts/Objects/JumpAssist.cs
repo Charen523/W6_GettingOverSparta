@@ -1,12 +1,11 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class JumpAssist : MonoBehaviour
 {
     [Header("Jump Assister")]
     public LayerMask PlayerMask = 1 << 6;
-    public float jumpAssistForce;
+    public float jumpAssistForce = 300;
 
     private GameObject player;
 
@@ -25,7 +24,7 @@ public class JumpAssist : MonoBehaviour
             player = other.gameObject;
             StartCoroutine(JumpDelay());
         }
-        
+
     }
 
     private IEnumerator JumpDelay()

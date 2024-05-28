@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [System.Serializable]
-public class ItemDataConsumable
+public class ItemDataConsumable //Dictionary 대용으로 좋은듯? 
 {
     public ConsumableType type; //heal, stamina 등.
     public float value; //얼마나.
@@ -11,6 +11,7 @@ public class ItemDataConsumable
 public class ItemData : ScriptableObject
 {
     [Header("Info")]
+    public int ItemIndex;
     public string displayName = "None";
     public string description = "No Description";
     public Sprite icon;

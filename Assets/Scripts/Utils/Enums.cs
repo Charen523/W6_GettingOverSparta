@@ -2,10 +2,11 @@
 public enum ConsumableType
 {
     Health,
-    Stamina
+    Stamina,
+    Speed
 }
 
-//InfoPanels의 자식항목과 순서가 일치해야 함.
+//InfoPanels의 자식항목과 순서가 일치해야 TryParse 가능.
 public enum InfoTag
 {
     Tree = 0,
