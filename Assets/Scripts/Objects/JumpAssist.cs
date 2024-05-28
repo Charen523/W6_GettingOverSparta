@@ -31,10 +31,10 @@ public class JumpAssist : MonoBehaviour
     private IEnumerator JumpDelay()
     {
         anim.SetTrigger("PlayerOn");
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.3f);
 
         //점프대에서 1초 기다렸을 때.
-        if (player.transform.position == CharacterManager.Instance.Player.GetComponent<Transform>().position)
+        if (CharacterManager.Instance.Player.GetComponent<Transform>().position == player.transform.position)
         {
             player.gameObject.GetComponent<Rigidbody>().AddForce(Vector3.up * jumpAssistForce, ForceMode.Impulse);
         }
