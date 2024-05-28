@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     private float currentCamXRot;
 
     //Unity Variables
-    public PlayerDataSO playerData; //Instpector에서 할당.
+    public PlayerData playerData; //Instpector에서 할당.
     private PlayerCondition playerCondition;
     private Rigidbody rb;
     private Transform cameraContainer;
@@ -144,7 +144,7 @@ public class PlayerController : MonoBehaviour
         if (isJumping && IsGrounded())
         {
             rb.AddForce(Vector3.up * playerData.jumpForce, ForceMode.Impulse);
-            playerCondition.UseStamina(-playerData.jumpStaminaValue);
+            playerCondition.UseStamina(playerData.jumpStaminaValue);
         }
 
     }
