@@ -11,7 +11,7 @@ public class Condition : MonoBehaviour
     public float maxValue = 100; //최대값.
     public float deltaRate = 0; //변화값
 
-    private float currentValue;
+    public float CurrentValue { get { return CurrentValue; } private set { } }
 
     private void Awake()
     {
@@ -20,7 +20,7 @@ public class Condition : MonoBehaviour
 
     private void Start()
     {
-        currentValue = startValue;
+        CurrentValue = startValue;
     }
 
     private void Update()
@@ -30,16 +30,11 @@ public class Condition : MonoBehaviour
 
     public void changeValue(float amount)
     {
-        currentValue = Mathf.Clamp(currentValue + amount, 0, maxValue);
-    }
-
-    public float GetCurrentValue()
-    {
-        return currentValue;
+        CurrentValue = Mathf.Clamp(CurrentValue + amount, 0, maxValue);
     }
 
     private float GetFillAmount()
     {
-        return currentValue / maxValue;
+        return CurrentValue / maxValue;
     }
 }

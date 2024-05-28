@@ -36,9 +36,8 @@ public class Interaction : MonoBehaviour
 
             //화면의 중앙에서 레이 쏘기.
             Ray ray = mainCam.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit, maxCheckDistance, PromptLayerMask))
+            
+            if (Physics.Raycast(ray, out RaycastHit hit, maxCheckDistance, PromptLayerMask))
             {
                 if (hit.collider.gameObject != currentObject)
                 {

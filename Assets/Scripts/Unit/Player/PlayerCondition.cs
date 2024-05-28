@@ -13,24 +13,24 @@ public class PlayerCondition : MonoBehaviour, IDamagable
 
     private void Update()
     {
-        if (stamina.GetCurrentValue() == 0.0f && !isStaminaDepleted)
+        if (stamina.CurrentValue == 0.0f && !isStaminaDepleted)
         {
             CharacterManager.Instance.Player.controller.canRun = false;
             isStaminaDepleted = true; //스테미나 고갈.
         }
-        else if (stamina.GetCurrentValue() > 0.0f && isStaminaDepleted)
+        else if (stamina.CurrentValue > 0.0f && isStaminaDepleted)
         {
             isStaminaDepleted = false; //스테미나 고갈 종료.
         }
 
-        //HP가 풀이고 delta가 0보다 크면(=회복이면) 더 이상 changeValue하지 않음.
-        if (!(stamina.GetCurrentValue() == stamina.maxValue && stamina.deltaRate > 0))
+        //HP가 풀이고 delta가 음이 아니면 더 이상 changeValue하지 않음.
+        if (!(stamina.CurrentValue == stamina.maxValue && stamina.deltaRate >= 0))
         {
             stamina.changeValue(stamina.deltaRate * Time.deltaTime);
         }
         
 
-        if (health.GetCurrentValue() == 0.0f)
+        if (health.CurrentValue == 0.0f)
         {
             Die();
         }
