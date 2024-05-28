@@ -4,6 +4,7 @@ public class Player : MonoBehaviour
 {
     public PlayerController controller;
     public PlayerCondition condition;
+    public PlayerData playerData; //인스펙터 창
 
     private void Awake()
     {

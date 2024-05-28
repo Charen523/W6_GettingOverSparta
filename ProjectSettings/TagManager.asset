@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Tree
   - Car
+  - Bush
   layers:
   - Default
   - TransparentFX
@@ -17,7 +18,7 @@ TagManager:
   - Level
   - Investigate
   - Interact
-  - 
+  - Jump
   - 
   - 
   - 

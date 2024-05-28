@@ -4,6 +4,7 @@ using UnityEngine;
 public class PlayerCondition : MonoBehaviour, IDamagable
 { 
     public UIConditions uiCondition; //인스펙터창.
+    public event Action OnDamage;
 
     Condition health { get { return uiCondition.health; } }
     Condition stamina { get { return uiCondition.stamina; } }
@@ -38,6 +39,7 @@ public class PlayerCondition : MonoBehaviour, IDamagable
     public void TakePhysicalDamage(int damageAmount)
     {
         health.changeValue(-damageAmount);
+        OnDamage?.Invoke();
     }
 
     //외부에서 스테미나 델타 변경할 때(달리기).
@@ -59,6 +61,11 @@ public class PlayerCondition : MonoBehaviour, IDamagable
 
     public void Die()
     {
-        Debug.Log("좀비상태 ON");
+        Application.Quit();
+
+#if UNITY_EDITOR
+        // 유니티 에디터라면 이것도 종료.
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
     }
 }

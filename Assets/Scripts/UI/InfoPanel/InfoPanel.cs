@@ -34,7 +34,7 @@ public class InfoPanel : MonoBehaviour
 
     private void SetInfoData(InfoData infoData)
     {
-        infoName.text = infoData.name;
+        infoName.text = infoData.displayName;
         infoDescription.text = infoData.description;
     }
 }

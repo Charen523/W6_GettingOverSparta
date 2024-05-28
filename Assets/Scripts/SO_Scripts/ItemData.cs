@@ -11,13 +11,13 @@ public class ItemDataConsumable
 public class ItemData : ScriptableObject
 {
     [Header("Info")]
-    public string displayName;
-    public string description;
+    public string displayName = "None";
+    public string description = "No Description";
     public Sprite icon;
     
     [Header("Stacking")]
-    public bool canStack;
-    public int maxStackAmount;
+    public bool canStack = true;
+    public int maxStackAmount = 99;
 
     [Header("Consumable")]
     public ItemDataConsumable[] consumables;

@@ -11,11 +11,12 @@ public class PlayerController : MonoBehaviour
     private float currentCamXRot;
 
     //Unity Variables
-    public PlayerData playerData; //Instpector에서 할당.
+    private PlayerData playerData;
     private PlayerCondition playerCondition;
     private Rigidbody rb;
     private Transform cameraContainer;
 
+    
     //current Action bools
     private bool canLook = true;
     [HideInInspector()] public bool canRun = true;
@@ -30,6 +31,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        playerData = CharacterManager.Instance.Player.playerData;
         playerCondition = CharacterManager.Instance.Player.condition;
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -165,7 +167,7 @@ public class PlayerController : MonoBehaviour
 
         for (int i = 0; i < rays.Length; i++)
         {
-            if (Physics.Raycast(rays[i], out RaycastHit hit, rayLength, playerData.groundLayerMask))
+            if (Physics.Raycast(rays[i], rayLength, playerData.groundLayerMask))
             {
                 canRun = true;
                 return true;

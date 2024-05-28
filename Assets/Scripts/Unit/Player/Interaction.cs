@@ -43,6 +43,7 @@ public class Interaction : MonoBehaviour
                 {
                     currentObject = hit.collider.gameObject;
                     
+                    //string tag와 Enum의 이름이 일치해야 함.
                     if (Enum.TryParse(currentObject.tag, out InfoTag infoTag))
                     {
                         infoPanel.ShowPanel(infoTag);
