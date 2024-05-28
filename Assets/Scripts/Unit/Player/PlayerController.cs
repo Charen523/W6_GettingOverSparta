@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     private Transform cameraContainer;
 
+    
     //current Action bools
     private bool canLook = true;
     [HideInInspector()] public bool canRun = true;
@@ -165,7 +166,7 @@ public class PlayerController : MonoBehaviour
 
         for (int i = 0; i < rays.Length; i++)
         {
-            if (Physics.Raycast(rays[i], out RaycastHit hit, rayLength, playerData.groundLayerMask))
+            if (Physics.Raycast(rays[i], rayLength, playerData.groundLayerMask))
             {
                 canRun = true;
                 return true;
