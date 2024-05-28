@@ -9,16 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ddc2c1e0edc0e2440b32e11ecb1bbe26, type: 3}
+  m_Script: {fileID: 11500000, guid: ddbaa4b3b6401064ea94aaf740c4766e, type: 3}
   m_Name: MainPlayer
   m_EditorClassIdentifier: 
   baseSpeed: 5
   runSpeedRate: 2
   runStaminaDeltaValue: 10
-  jumpForce: 120
+  jumpForce: 110
   jumpStaminaValue: 10
   groundLayerMask:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 183
   lookSensitivity: 0.1
-  maxXLook: 85
+  maxXLook: 60
