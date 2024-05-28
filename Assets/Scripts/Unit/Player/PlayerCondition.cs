@@ -41,6 +41,7 @@ public class PlayerCondition : MonoBehaviour
         stamina.deltaRate = amount;
     }
 
+    //외부에서 스테미나 절대값 변경할 때(점프).
     public void UseStamina(float amount)
     {
         stamina.changeValue(amount);
@@ -48,7 +49,7 @@ public class PlayerCondition : MonoBehaviour
 
     public void HealStamina()
     {
-        stamina.deltaRate = 5f;
+        stamina.deltaRate = 50f; //TODO: SO로 바꾸기.
     }
 
     public void Die()
