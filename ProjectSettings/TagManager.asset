@@ -8,6 +8,9 @@ TagManager:
   - Car
   - Bush
   - Pill
+  - Firstaid
+  - FreshWater
+  - CannedFood
   layers:
   - Default
   - TransparentFX

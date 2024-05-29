@@ -12,7 +12,7 @@ public class UseItem : MonoBehaviour
 
     public void UseSpeedPill(ItemData item)
     {
-        float value = item.consumables[0].value;
+        float value = item.consumable.value;
         StartCoroutine(SpeedPillTime(value));
     }
 
