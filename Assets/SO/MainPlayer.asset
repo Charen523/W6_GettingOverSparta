@@ -15,7 +15,7 @@ MonoBehaviour:
   baseSpeed: 5
   runSpeedRate: 2
   runStaminaDeltaValue: 10
-  jumpForce: 110
+  jumpForce: 100
   jumpStaminaValue: 10
   groundLayerMask:
     serializedVersion: 2

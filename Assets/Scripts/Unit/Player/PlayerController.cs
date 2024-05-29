@@ -152,7 +152,7 @@ public class PlayerController : MonoBehaviour
     private bool IsGrounded()
     {
         float directionOffset = 0.1f;
-        float heightOffest = 1.45f;
+        float heightOffest = 0.1f;
         float rayLength = 0.1f;
 
         Ray[] rays = new Ray[4]
