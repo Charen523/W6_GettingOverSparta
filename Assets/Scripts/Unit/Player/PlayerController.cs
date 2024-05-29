@@ -3,6 +3,9 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    private float staminahealdelta = 50f; //TODO: 위치변경 필요.
+    public int jumpAgain;
+
     //current Input Values
     private Vector2 moveInput;
     private Vector2 mouseDelta;
@@ -15,13 +18,11 @@ public class PlayerController : MonoBehaviour
     private Transform cameraContainer;
     private Animator playerAnim;
 
-    
     //current Action bools
     private bool canLook = true;
     [HideInInspector()] public bool canRun = true;
     private bool isRunning = false;
-    private bool isJumping = false;
-
+    
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -39,7 +40,6 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
-        Jump();
     }
 
     private void LateUpdate()
@@ -78,7 +78,7 @@ public class PlayerController : MonoBehaviour
         if (context.phase == InputActionPhase.Canceled)
         {
             isRunning = false;
-            playerCondition.HealStamina();
+            playerCondition.changeStaminaDelta(staminahealdelta); 
             canRun = true;
         }
     }
@@ -87,12 +87,7 @@ public class PlayerController : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Started)
         {
-            isJumping = true;
-        }
-
-        if (context.phase == InputActionPhase.Canceled)
-        {
-            isJumping = false;
+            Jump();
         }
     }
 
@@ -138,10 +133,11 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
-        if (isJumping && IsGrounded())
+        if (IsGrounded())
         {
             rb.AddForce(Vector3.up * playerData.jumpForce, ForceMode.Impulse);
             playerCondition.UseStamina(playerData.jumpStaminaValue);
+           
         }
     }
 
@@ -166,6 +162,12 @@ public class PlayerController : MonoBehaviour
                 canRun = true;
                 return true;
             }
+        }
+        
+        if (jumpAgain > 0)
+        {
+            jumpAgain = Mathf.Max(--jumpAgain, 0);
+            return true;
         }
 
         //공중에 떠 있는 상태에서는 가속 불가 예외처리.

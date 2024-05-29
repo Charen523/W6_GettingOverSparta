@@ -15,7 +15,7 @@ public class ItemObject : MonoBehaviour, IInteractable
     {
         CharacterManager.Instance.Player.itemData = data;
         CharacterManager.Instance.Player.addItem?.Invoke();
-        CharacterManager.Instance.Player.useItem.UseSpeedPill(data);
+        CharacterManager.Instance.Player.useItem.UseThisItem(data);
         Destroy(gameObject);
     }
 }

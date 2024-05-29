@@ -14,5 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tag: 6
   displayName: '[E] Canned Food'
-  description: Sometimes, you will need to go higher without that crazy foothold.
-    Then, probably you'll need this!
+  description: Jump Once Again! The more you have, the more you jump.

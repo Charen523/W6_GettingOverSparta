@@ -42,7 +42,7 @@ public class Interaction : MonoBehaviour
                 if (hit.collider.gameObject != currentObject)
                 {
                     currentObject = hit.collider.gameObject;
-
+                    
                     if (currentObject.TryGetComponent(out IInteractable interactable)) 
                     {
                         currentInteractable = interactable;

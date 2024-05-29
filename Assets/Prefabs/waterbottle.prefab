@@ -12,9 +12,11 @@ GameObject:
   - component: {fileID: 7838707718368074594}
   - component: {fileID: 1944903429008713060}
   - component: {fileID: 1231986152605566890}
-  m_Layer: 0
+  - component: {fileID: 4076121402353675693}
+  - component: {fileID: -4464477477769255182}
+  m_Layer: 11
   m_Name: waterbottle
-  m_TagString: Untagged
+  m_TagString: FreshWater
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
   m_LocalPosition: {x: -0.099700004, y: 0.196, z: 0.0018367425}
-  m_LocalScale: {x: 0.21121144, y: 0.21121144, z: 0.21121144}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -106,3 +108,37 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4076121402353675693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4473929862642429903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ab2267b2e356264798e8cfbcbd5a586, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 0f2482313a8d6de4eaef833759daa116, type: 2}
+--- !u!65 &-4464477477769255182
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4473929862642429903}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.3507573, y: 0.8511895, z: 0.3507573}
+  m_Center: {x: 0, y: -0.21044274, z: 0}
