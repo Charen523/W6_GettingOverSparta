@@ -11,7 +11,7 @@ public class Condition : MonoBehaviour
     public float maxValue = 100; //최대값.
     public float deltaRate = 0; //변화값
 
-    public float CurrentValue { get { return CurrentValue; } private set { } }
+    public float CurrentValue { get; private set; }
 
     private void Awake()
     {
