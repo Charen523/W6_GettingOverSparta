@@ -101,11 +101,6 @@ public class PlayerController : MonoBehaviour
         //TODO: 인벤토리 UI 만들기
     }
 
-    public void OnInteract(InputAction.CallbackContext context)
-    {
-        //TODO: 상호작용 기능 만들기
-    }
-
     public void OnMenu(InputAction.CallbackContext context)
     {
         //TODO: 메뉴UI 만들기
