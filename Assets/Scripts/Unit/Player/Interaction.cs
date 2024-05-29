@@ -22,12 +22,12 @@ public class Interaction : MonoBehaviour
         infoPanel = infoObject.GetComponent<InfoPanel>();
     }
 
-    void Start()
+    private void Start()
     {
         mainCam = Camera.main;
     }
 
-    void Update()
+    private void Update()
     {
         if (Time.time - lastCheckTime > checkRate)
         {
@@ -55,6 +55,17 @@ public class Interaction : MonoBehaviour
                 currentObject = null;
                 infoPanel.HidePanel();
             }
+        }
+    }
+
+    public void OnInteractInput(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started && curInteractable != null)
+        {
+            curInteractable.OnInteract();
+            currentObject = null;
+            curInteractable = null;
+            promptText.gameObject.SetActive(false);
         }
     }
 }
