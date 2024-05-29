@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     public PlayerController controller;
     public PlayerCondition condition;
     public Interaction interaction;
+    public UseItem useItem;
 
     public ItemData itemData;
     public Action addItem;
@@ -17,5 +18,6 @@ public class Player : MonoBehaviour
         controller = GetComponent<PlayerController>();
         condition = GetComponent<PlayerCondition>();
         interaction = GetComponent<Interaction>();
+        useItem = GetComponent<UseItem>();
     }
 }

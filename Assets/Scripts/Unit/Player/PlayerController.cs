@@ -1,5 +1,3 @@
-using System;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -46,8 +44,6 @@ public class PlayerController : MonoBehaviour
 
     private void LateUpdate()
     {
-        PlayerAnimSetter();
-
         if (canLook)
         {
             CameraLook();
@@ -185,26 +181,5 @@ public class PlayerController : MonoBehaviour
     {
         Cursor.lockState = toggle ? CursorLockMode.None : CursorLockMode.Locked;
         canLook = !toggle;
-    }
-
-    private void PlayerAnimSetter()
-    {
-        string isMove = "isMove";
-        string isRun = "isRun";
-
-        if (moveInput != Vector2.zero)
-        {
-            playerAnim.SetBool(isMove, true);
-
-            if (isRunning)
-                playerAnim.SetBool(isRun, true);
-            else
-                playerAnim.SetBool(isRun, false);
-        }
-        else
-        {
-            playerAnim.SetBool(isMove, false);
-            playerAnim.SetBool(isRun, false);
-        }
     }
 }

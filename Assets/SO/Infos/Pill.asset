@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Pill
   m_EditorClassIdentifier: 
   tag: 3
-  displayName: Speed Pill
+  displayName: '[E] Speed Pill'
   description: You can walk and run slightly faster by having this pill!

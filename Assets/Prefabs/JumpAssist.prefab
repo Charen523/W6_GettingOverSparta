@@ -171,4 +171,4 @@ MonoBehaviour:
   PlayerMask:
     serializedVersion: 2
     m_Bits: 64
-  jumpAssistForce: 500
+  jumpAssistForce: 350
