@@ -11,5 +11,6 @@ public enum InfoTag
 {
     Tree = 0,
     Car,
-    Bush
+    Bush,
+    Pill
 }

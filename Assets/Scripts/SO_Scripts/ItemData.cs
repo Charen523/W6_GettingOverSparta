@@ -12,8 +12,7 @@ public class ItemData : ScriptableObject
 {
     [Header("Info")]
     public int ItemIndex;
-    public string displayName = "None";
-    public string description = "No Description";
+    public InfoData itemInfo;
     public Sprite icon;
     
     [Header("Stacking")]
@@ -23,6 +22,6 @@ public class ItemData : ScriptableObject
     [Header("Consumable")]
     public ItemDataConsumable[] consumables;
 
-    [Header("Equip")]
-    public GameObject equipPrefab;
+    //[Header("Equip")]
+    //public GameObject equipPrefab;
 }
