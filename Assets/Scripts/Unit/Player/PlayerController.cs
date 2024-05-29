@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     private PlayerCondition playerCondition;
     private Rigidbody rb;
     private Transform cameraContainer;
+    private Animator playerAnim;
 
     
     //current Action bools
@@ -26,6 +27,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        playerAnim = GetComponent<Animator>();
         cameraContainer = transform.GetChild(0); //0:cameraContainer.
     }
 
@@ -44,6 +46,8 @@ public class PlayerController : MonoBehaviour
 
     private void LateUpdate()
     {
+        PlayerAnimSetter();
+
         if (canLook)
         {
             CameraLook();
@@ -143,7 +147,6 @@ public class PlayerController : MonoBehaviour
             rb.AddForce(Vector3.up * playerData.jumpForce, ForceMode.Impulse);
             playerCondition.UseStamina(playerData.jumpStaminaValue);
         }
-
     }
 
     private bool IsGrounded()
@@ -182,5 +185,26 @@ public class PlayerController : MonoBehaviour
     {
         Cursor.lockState = toggle ? CursorLockMode.None : CursorLockMode.Locked;
         canLook = !toggle;
+    }
+
+    private void PlayerAnimSetter()
+    {
+        string isMove = "isMove";
+        string isRun = "isRun";
+
+        if (moveInput != Vector2.zero)
+        {
+            playerAnim.SetBool(isMove, true);
+
+            if (isRunning)
+                playerAnim.SetBool(isRun, true);
+            else
+                playerAnim.SetBool(isRun, false);
+        }
+        else
+        {
+            playerAnim.SetBool(isMove, false);
+            playerAnim.SetBool(isRun, false);
+        }
     }
 }
