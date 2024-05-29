@@ -13,14 +13,9 @@ public class ItemData : ScriptableObject
     [Header("Info")]
     public int ItemIndex;
     public InfoData itemInfo;
-    public Sprite icon;
     
-    [Header("Stacking")]
-    public bool canStack = true;
-    public int maxStackAmount = 99;
-
     [Header("Consumable")]
-    public ItemDataConsumable[] consumables;
+    public ItemDataConsumable consumable;
 
     //[Header("Equip")]
     //public GameObject equipPrefab;

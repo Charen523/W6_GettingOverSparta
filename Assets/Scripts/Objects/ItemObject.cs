@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class ItemObject : MonoBehaviour, IInteractable
 {
@@ -14,6 +15,7 @@ public class ItemObject : MonoBehaviour, IInteractable
     {
         CharacterManager.Instance.Player.itemData = data;
         CharacterManager.Instance.Player.addItem?.Invoke();
+        CharacterManager.Instance.Player.useItem.UseThisItem(data);
         Destroy(gameObject);
     }
 }

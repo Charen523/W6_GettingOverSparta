@@ -10,6 +10,7 @@ public class PlayerCondition : MonoBehaviour, IDamagable
     Condition stamina { get { return uiCondition.stamina; } }
 
     private bool isStaminaDepleted = false;
+    [HideInInspector] public bool isInvincible = false;
 
     private void Update()
     {
@@ -23,8 +24,16 @@ public class PlayerCondition : MonoBehaviour, IDamagable
 
     public void TakePhysicalDamage(int damageAmount)
     {
+        if (isInvincible)
+            return;
+
         health.changeValue(-damageAmount);
         OnDamage?.Invoke();
+    }
+
+    public void HealHealth(float amount)
+    {
+        health.changeValue(amount);
     }
 
     //외부에서 스테미나 델타 변경할 때(달리기).
@@ -39,9 +48,9 @@ public class PlayerCondition : MonoBehaviour, IDamagable
         stamina.changeValue(-amount);
     }
 
-    public void HealStamina()
+    public void HealStamina(float amount)
     {
-        stamina.deltaRate = 50f; //TODO: Condition에서 가져오는걸로 바꾸기.
+        stamina.changeValue(amount); 
     }
 
     private void StaminaUpdate()

@@ -8,6 +8,9 @@ TagManager:
   - Car
   - Bush
   - Pill
+  - Firstaid
+  - FreshWater
+  - CannedFood
   layers:
   - Default
   - TransparentFX
@@ -21,8 +24,8 @@ TagManager:
   - Interact
   - Jump
   - Item
-  - 
-  - 
+  - Equip
+  - playerSprite
   - 
   - 
   - 
