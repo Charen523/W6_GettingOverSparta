@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EquipIndex: 1
   EquipInfo: {fileID: 11400000, guid: b61472806bb1ae2439d2e745173ef9f1, type: 2}
-  equipPrefab: {fileID: 9034357275907230244, guid: 7eb07fa0c18aa8d4fb76fb9e2e0c4c91, type: 3}
+  equipPrefab: {fileID: 2834956901809958709, guid: f5741bf3b5b563e4bb5f51d815c95993, type: 3}

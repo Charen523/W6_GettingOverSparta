@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: MainPlayer
   m_EditorClassIdentifier: 
   baseSpeed: 5
-  runSpeedRate: 4
+  runSpeedRate: 2
   runStaminaDeltaValue: 10
   jumpForce: 100
   jumpStaminaValue: 10

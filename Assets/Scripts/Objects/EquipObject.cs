@@ -32,7 +32,7 @@ public class EquipObject : MonoBehaviour, IInteractable
         rightHandEquip.EquipDisable();
 
         Instantiate(weaponToDrop.GetComponent<EquipObject>().data.equipPrefab,
-            rightHandEquip.gameObject.transform.position + (transform.right + transform.up) * 2,
+            rightHandEquip.gameObject.transform.position + weaponToDrop.transform.right + weaponToDrop.transform.up,
             transform.rotation);
     }
 }
