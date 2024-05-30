@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     //Unity Variables
     private PlayerData playerData;
     private PlayerCondition playerCondition;
+    private RightHandEquip rightHandEquip;
     private Rigidbody rb;
     private Transform cameraContainer;
     private Animator playerAnim;
@@ -22,6 +23,7 @@ public class PlayerController : MonoBehaviour
     private bool canLook = true;
     [HideInInspector()] public bool canRun = true;
     private bool isRunning = false;
+    private bool isJumping = false;
     private bool perspectiveFirst = true;
 
     private Transform originalParent;
@@ -37,6 +39,7 @@ public class PlayerController : MonoBehaviour
     {
         playerData = CharacterManager.Instance.Player.playerData;
         playerCondition = CharacterManager.Instance.Player.condition;
+        rightHandEquip = CharacterManager.Instance.Player.rightHandEquip;
         Cursor.lockState = CursorLockMode.Locked;
         originalParent = transform.parent;
     }
@@ -44,6 +47,7 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
+        Jump();
     }
 
     private void LateUpdate()
@@ -91,8 +95,12 @@ public class PlayerController : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Started)
         {
-            Jump();
+            isJumping = true;
+            
         }
+
+        if (context.phase == InputActionPhase.Canceled)
+            isJumping = false;
     }
 
     public void OnPerspective(InputAction.CallbackContext context)
@@ -111,9 +119,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void OnMenu(InputAction.CallbackContext context)
+    public void OnDiscard(InputAction.CallbackContext context)
     {
-        //TODO: 메뉴UI 만들기
+        if (rightHandEquip.currentWeapon != null)
+        {
+            rightHandEquip.currentWeapon.GetComponent<EquipObject>().DropEquip();
+        }
     }
 
     private void Move()
@@ -148,7 +159,7 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
-        if (IsGrounded())
+        if (isJumping && IsGrounded())
         {
             rb.AddForce(Vector3.up * playerData.jumpForce, ForceMode.Impulse);
             playerCondition.UseStamina(playerData.jumpStaminaValue);

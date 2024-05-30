@@ -12,6 +12,8 @@ TagManager:
   - FreshWater
   - CannedFood
   - Door
+  - Hammer
+  - Spear
   layers:
   - Default
   - TransparentFX

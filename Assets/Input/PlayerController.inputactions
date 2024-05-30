@@ -60,9 +60,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Menu",
+                    "name": "Discard",
                     "type": "Button",
-                    "id": "f90c0905-7c24-4bef-aea5-aef08ee66146",
+                    "id": "1eda8ebd-dfab-4830-a4a7-04d0d92c3f5c",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -182,12 +182,12 @@
                 },
                 {
                     "name": "",
-                    "id": "5d12a7b6-871a-4547-b051-7185b2325db4",
-                    "path": "<Keyboard>/escape",
+                    "id": "c5d3d9ee-4288-4de4-9f8b-f40f5933f6cb",
+                    "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Menu",
+                    "action": "Discard",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

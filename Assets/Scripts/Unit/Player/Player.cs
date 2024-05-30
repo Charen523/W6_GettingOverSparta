@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     public PlayerCondition condition;
     public Interaction interaction;
     public UseItem useItem;
+    public RightHandEquip rightHandEquip;
 
     public ItemData itemData;
     public Action addItem;
@@ -19,5 +20,6 @@ public class Player : MonoBehaviour
         condition = GetComponent<PlayerCondition>();
         interaction = GetComponent<Interaction>();
         useItem = GetComponent<UseItem>();
+        rightHandEquip = GetComponent<RightHandEquip>();
     }
 }

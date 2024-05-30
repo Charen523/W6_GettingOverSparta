@@ -18,5 +18,7 @@ public enum InfoTag
     Firstaid,
     FreshWater,
     CannedFood,
-    Door
+    Door,
+    Hammer,
+    Spear
 }
