@@ -129,9 +129,20 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
-        Vector3 dir = transform.forward * moveInput.y + transform.right * moveInput.x; //방향
+        Vector3 dir;
+        if (IsClimb())
+        {
+            dir = transform.up * moveInput.y + transform.right * moveInput.x; //방향
+        }
+        else
+        {
+            dir = transform.forward * moveInput.y + transform.right * moveInput.x; //방향
+        }
+        
         dir *= CurrentSpeed();
-        dir.y = rb.velocity.y;
+
+        if (!IsClimb())
+            dir.y = rb.velocity.y;
 
         rb.velocity = dir;
     }
@@ -169,27 +180,17 @@ public class PlayerController : MonoBehaviour
 
     private bool IsGrounded()
     {
-        float directionOffset = 0.1f;
         float heightOffest = 0.1f;
         float rayLength = 0.1f;
 
-        Ray[] rays = new Ray[4]
-        {
-            new Ray(transform.position + (transform.forward * directionOffset) - (transform.up * heightOffest), Vector3.down),
-            new Ray(transform.position - (transform.forward * directionOffset) - (transform.up * heightOffest), Vector3.down),
-            new Ray(transform.position + (transform.right * directionOffset) - (transform.up * heightOffest), Vector3.down),
-            new Ray(transform.position - (transform.right * directionOffset) - (transform.up * heightOffest), Vector3.down)
-        };
+        Ray groundRay = new Ray(transform.position - (transform.up * heightOffest), Vector3.down);
 
-        for (int i = 0; i < rays.Length; i++)
+        if (Physics.Raycast(groundRay, rayLength, playerData.groundLayerMask))
         {
-            if (Physics.Raycast(rays[i], rayLength, playerData.groundLayerMask))
-            {
-                canRun = true;
-                return true;
-            }
+            canRun = true;
+            return true;
         }
-        
+
         if (jumpAgain > 0)
         {
             jumpAgain = Mathf.Max(--jumpAgain, 0);
@@ -200,6 +201,18 @@ public class PlayerController : MonoBehaviour
         if (!isRunning)
         {
             canRun = false;
+        }
+
+        return false;
+    }
+
+    private bool IsClimb()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));
+
+        if (Physics.Raycast(ray, 0.5f, playerData.groundLayerMask))
+        {
+            return true;
         }
 
         return false;
