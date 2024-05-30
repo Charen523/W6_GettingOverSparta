@@ -24,8 +24,7 @@ public class PlayerController : MonoBehaviour
     private bool isRunning = false;
     private bool perspectiveFirst = true;
 
-    private Transform platformTransform;
-    private Vector3 previousplatformPosition;
+    private Transform originalParent;
 
     private void Awake()
     {
@@ -123,14 +122,6 @@ public class PlayerController : MonoBehaviour
         dir.y = rb.velocity.y;
 
         rb.velocity = dir;
-
-        //움직이는 것 위에 있을 때 그 움직임을 따라감.
-        if (platformTransform != null)
-        {
-            Vector3 platformMovement = platformTransform.position - previousplatformPosition;
-            transform.position += platformMovement;
-            previousplatformPosition = platformTransform.position;
-        }
     }
 
     private void CameraLook()
@@ -207,8 +198,8 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Car"))
         {
             collision.gameObject.GetComponent<Animator>().SetTrigger("IsPlayer");
-            platformTransform = collision.transform;
-            previousplatformPosition = platformTransform.position;
+            originalParent = transform.parent;
+            transform.SetParent(collision.transform);
         }
     }
 
@@ -216,7 +207,7 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Car"))
         {
-            platformTransform = null;
+            transform.SetParent(originalParent);
         }
     }
 
