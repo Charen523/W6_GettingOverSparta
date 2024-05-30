@@ -22,7 +22,11 @@ public class PlayerController : MonoBehaviour
     private bool canLook = true;
     [HideInInspector()] public bool canRun = true;
     private bool isRunning = false;
-    
+    private bool perspectiveFirst = true;
+
+    private Transform platformTransform;
+    private Vector3 previousplatformPosition;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -91,9 +95,20 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void OnInventory(InputAction.CallbackContext context)
+    public void OnPerspective(InputAction.CallbackContext context)
     {
-        //TODO: 인벤토리 UI 만들기
+        if (perspectiveFirst)
+        {
+            perspectiveFirst = !perspectiveFirst;
+            Camera.main.cullingMask |= 1 << 13;
+            Camera.main.transform.localPosition = new Vector3(0, 0.5f, -1.5f);
+        }
+        else
+        {
+            perspectiveFirst = !perspectiveFirst;
+            Camera.main.cullingMask &= ~(1 << 13);
+            Camera.main.transform.localPosition = Vector3.zero;
+        }
     }
 
     public void OnMenu(InputAction.CallbackContext context)
@@ -108,6 +123,14 @@ public class PlayerController : MonoBehaviour
         dir.y = rb.velocity.y;
 
         rb.velocity = dir;
+
+        //움직이는 것 위에 있을 때 그 움직임을 따라감.
+        if (platformTransform != null)
+        {
+            Vector3 carMovement = platformTransform.position - previousplatformPosition;
+            transform.position += carMovement;
+            previousplatformPosition = platformTransform.position;
+        }
     }
 
     private void CameraLook()
@@ -179,9 +202,22 @@ public class PlayerController : MonoBehaviour
         return false;
     }
 
-    public void ToggleCursor(bool toggle)
+    private void OnCollisionEnter(Collision collision)
     {
-        Cursor.lockState = toggle ? CursorLockMode.None : CursorLockMode.Locked;
-        canLook = !toggle;
+        if (collision.gameObject.CompareTag("Car"))
+        {
+            collision.gameObject.GetComponent<Animator>().SetTrigger("IsPlayer");
+            platformTransform = collision.transform;
+            previousplatformPosition = platformTransform.position;
+        }
     }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Car"))
+        {
+            platformTransform = null;
+        }
+    }
+
 }

@@ -42,7 +42,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Inventory",
+                    "name": "Perspective",
                     "type": "Button",
                     "id": "5224b879-32eb-4d65-b144-460f8d017f32",
                     "expectedControlType": "Button",
@@ -154,7 +154,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Inventory",
+                    "action": "Perspective",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
