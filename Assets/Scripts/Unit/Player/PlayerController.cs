@@ -127,8 +127,8 @@ public class PlayerController : MonoBehaviour
         //움직이는 것 위에 있을 때 그 움직임을 따라감.
         if (platformTransform != null)
         {
-            Vector3 carMovement = platformTransform.position - previousplatformPosition;
-            transform.position += carMovement;
+            Vector3 platformMovement = platformTransform.position - previousplatformPosition;
+            transform.position += platformMovement;
             previousplatformPosition = platformTransform.position;
         }
     }
