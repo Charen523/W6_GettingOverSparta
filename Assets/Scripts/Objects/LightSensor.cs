@@ -9,8 +9,8 @@ public class LightSensor : MonoBehaviour
 
     [Header("Ray Count")]
     public float maxDistance = 10f; // 레이의 최대 거리 설정
-    public int rayCount = 10; // 발사할 레이의 개수
-    public float coneAngle = 5f; // 원뿔의 각도 (반각)
+    public int rayCount = 20; // 발사할 레이의 개수
+    public float coneAngle = 70f; // 원뿔의 각도 (반각)
     public LayerMask detectionLayer;
 
     private List<Ray> rays = new List<Ray>();
@@ -27,7 +27,6 @@ public class LightSensor : MonoBehaviour
 
         foreach (var ray in rays)
         {
-            Debug.DrawRay(ray.origin, ray.direction * maxDistance, Color.white);
             // Raycast를 사용하여 충돌 감지
             if (Physics.Raycast(ray, out RaycastHit hit, maxDistance, detectionLayer))
             {
@@ -54,7 +53,7 @@ public class LightSensor : MonoBehaviour
 
     private void MakeRay()
     {
-        // 여기서는 큐브의 아래 중심을 기준으로 레이 발사
+        //큐브의 아래 중심을 기준으로 레이 발사
         Vector3 origin = transform.position + new Vector3(0, -transform.localScale.y / 2, 0);
 
         // 각도 계산
@@ -71,24 +70,28 @@ public class LightSensor : MonoBehaviour
             Ray ray = new Ray(origin, direction);
             rays.Add(ray);
 
+            Debug.DrawRay(ray.origin, ray.direction * maxDistance, Color.white, 10f);
+
             currentAngle += angleStep;
         }
 
         // 더 촘촘한 원뿔로 추가 레이 생성
-        float innerAngleStep = angleStep / 2;
-        currentAngle = innerAngleStep / 2;
+        angleStep = 360f / rayCount;
+        currentAngle = 0;
 
         for (int i = 0; i < rayCount; i++)
         {
             // 각도에 따른 방향 계산
             float radianAngle = currentAngle * Mathf.Deg2Rad;
-            Vector3 direction = new Vector3(Mathf.Sin(radianAngle), -Mathf.Tan((coneAngle / 2) * Mathf.Deg2Rad), Mathf.Cos(radianAngle));
+            Vector3 direction = new Vector3(Mathf.Sin(radianAngle), -Mathf.Tan((coneAngle + 10) * Mathf.Deg2Rad), Mathf.Cos(radianAngle));
 
             // Ray 발사
             Ray ray = new Ray(origin, direction);
             rays.Add(ray);
 
-            currentAngle += innerAngleStep;
+            Debug.DrawRay(ray.origin, ray.direction * maxDistance, Color.red, 10f);
+
+            currentAngle += angleStep;
         }
     }
 }
