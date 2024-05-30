@@ -38,6 +38,7 @@ public class PlayerController : MonoBehaviour
         playerData = CharacterManager.Instance.Player.playerData;
         playerCondition = CharacterManager.Instance.Player.condition;
         Cursor.lockState = CursorLockMode.Locked;
+        originalParent = transform.parent;
     }
 
     private void FixedUpdate()
@@ -195,10 +196,10 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+       
         if (collision.gameObject.layer == 14)
         {
             collision.gameObject.GetComponent<Animator>().SetTrigger("IsPlayer");
-            originalParent = transform.parent;
             transform.SetParent(collision.transform);
         }
     }

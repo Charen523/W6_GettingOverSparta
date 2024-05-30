@@ -17,5 +17,6 @@ public enum InfoTag
     Pill,
     Firstaid,
     FreshWater,
-    CannedFood
+    CannedFood,
+    Door
 }

@@ -1,17 +1,10 @@
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class ItemObject : MonoBehaviour, IInteractable
 {
     public ItemData data;
 
-    public string GetInteractPrompt()
-    {
-        string str = $"{data.itemInfo.displayName}\n{data.itemInfo.description}";
-        return str;
-    }
-
-    public void OnInteract()
+    public void OnObjectInteract()
     {
         CharacterManager.Instance.Player.itemData = data;
         CharacterManager.Instance.Player.addItem?.Invoke();
