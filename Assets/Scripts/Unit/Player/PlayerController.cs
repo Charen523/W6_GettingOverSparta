@@ -195,7 +195,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Car"))
+        if (collision.gameObject.layer == 14)
         {
             collision.gameObject.GetComponent<Animator>().SetTrigger("IsPlayer");
             originalParent = transform.parent;
@@ -205,7 +205,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Car"))
+        if (collision.gameObject.layer == 14)
         {
             transform.SetParent(originalParent);
         }
