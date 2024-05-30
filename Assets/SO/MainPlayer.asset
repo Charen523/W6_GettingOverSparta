@@ -19,6 +19,6 @@ MonoBehaviour:
   jumpStaminaValue: 10
   groundLayerMask:
     serializedVersion: 2
-    m_Bits: 183
+    m_Bits: 16567
   lookSensitivity: 0.1
   maxXLook: 60

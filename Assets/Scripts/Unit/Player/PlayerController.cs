@@ -22,7 +22,10 @@ public class PlayerController : MonoBehaviour
     private bool canLook = true;
     [HideInInspector()] public bool canRun = true;
     private bool isRunning = false;
-    
+    private bool perspectiveFirst = true;
+
+    private Transform originalParent;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -35,6 +38,7 @@ public class PlayerController : MonoBehaviour
         playerData = CharacterManager.Instance.Player.playerData;
         playerCondition = CharacterManager.Instance.Player.condition;
         Cursor.lockState = CursorLockMode.Locked;
+        originalParent = transform.parent;
     }
 
     private void FixedUpdate()
@@ -91,9 +95,20 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void OnInventory(InputAction.CallbackContext context)
+    public void OnPerspective(InputAction.CallbackContext context)
     {
-        //TODO: 인벤토리 UI 만들기
+        if (perspectiveFirst)
+        {
+            perspectiveFirst = !perspectiveFirst;
+            Camera.main.cullingMask |= 1 << 13;
+            Camera.main.transform.localPosition = new Vector3(0, 0.5f, -1.5f);
+        }
+        else
+        {
+            perspectiveFirst = !perspectiveFirst;
+            Camera.main.cullingMask &= ~(1 << 13);
+            Camera.main.transform.localPosition = Vector3.zero;
+        }
     }
 
     public void OnMenu(InputAction.CallbackContext context)
@@ -179,9 +194,22 @@ public class PlayerController : MonoBehaviour
         return false;
     }
 
-    public void ToggleCursor(bool toggle)
+    private void OnCollisionEnter(Collision collision)
     {
-        Cursor.lockState = toggle ? CursorLockMode.None : CursorLockMode.Locked;
-        canLook = !toggle;
+       
+        if (collision.gameObject.layer == 14)
+        {
+            collision.gameObject.GetComponent<Animator>().SetTrigger("IsPlayer");
+            transform.SetParent(collision.transform);
+        }
     }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.layer == 14)
+        {
+            transform.SetParent(originalParent);
+        }
+    }
+
 }

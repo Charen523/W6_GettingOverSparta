@@ -65,11 +65,14 @@ public class Interaction : MonoBehaviour
 
     public void OnInteract(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Started && currentInteractable != null)
+        if (context.phase == InputActionPhase.Started)
         {
-            currentInteractable.OnInteract();
-            currentObject = null;
-            currentInteractable = null;
+            if (currentInteractable != null)
+            {
+                currentInteractable.OnObjectInteract();
+                currentObject = null;
+                currentInteractable = null;
+            }
         }
     }
 }
