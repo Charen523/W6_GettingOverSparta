@@ -129,5 +129,5 @@
 ---
 
 ### ✨시연 영상 링크
-
+https://drive.google.com/file/d/1fuYES6zCXox3EWIEGxgbS5jEtg8c2lv4/view?usp=sharing
 ---
